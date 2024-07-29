@@ -1,8 +1,12 @@
 import express from 'express';
 import pino from 'pino-http';
 import cors from 'cors';
+import dotenv from 'dotenv';
+import { env } from './utils/env.js';
 
-const PORT = 3000;
+dotenv.config();
+
+const PORT = Number(env('PORT', '3000'));
 
 export const setupServer = () => {
   const app = express();
