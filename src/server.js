@@ -9,7 +9,7 @@ import { notFoundHandler } from './middlewares/notFoundHandler.js';
 
 dotenv.config();
 
-const PORT = Number(env('PORT', '3000'));
+const PORT = Number(env('PORT', '3001'));
 
 export const setupServer = () => {
   const app = express();
