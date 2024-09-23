@@ -16,14 +16,21 @@ const parseBoolean = (boolean) => {
   return undefined;
 };
 
+const parseName = (name) => {
+  const isString = typeof name === 'string';
+  if (!isString) return;
+  return name;
+};
 export const parseFilterParams = (query) => {
-  const { contactType, isFavourite } = query;
+  const { contactType, isFavourite, name } = query;
 
   const parsedType = parseType(contactType);
   const parsedIsFavourite = parseBoolean(isFavourite);
+  const parsedName = parseName(name);
 
   return {
     contactType: parsedType,
     isFavourite: parsedIsFavourite,
+    name: parsedName,
   };
 };
