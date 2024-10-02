@@ -8,6 +8,7 @@ import {
     refreshUserSessionController,
     registerUserController } from "../controllers/auth.js";
 
+
 const router=Router();
 
 router.post("/register", validateBody(registerUserSchema), ctrlWrapper(registerUserController),);
