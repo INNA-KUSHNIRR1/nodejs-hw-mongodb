@@ -21,7 +21,8 @@ export const loginUser= async (payload)=>{
     const isEqual=await bcrypt.compare(payload.password, user.password);
     if(!isEqual){ throw createHttpError(401, "Unauthorized");}
 
-    await SessionsCollection.deleteOne({userId:user.id});
+    await SessionsCollection.deleteOne({userId: user._id});
+    
     const accessToken=randomBytes(30).toString("base64");
     const refreshToken=randomBytes(30).toString("base64");
 
@@ -62,7 +63,7 @@ export const refreshUsersSession = async ({
             throw createHttpError(401, "Session not found");
         }
 
-        const isSessionTokenExpired = new Date() > new Date(session.refreshTokenValidUntil);
+        const isSessionTokenExpired = new Date() >new Date(session.refreshTokenValidUntil);
 
         if(isSessionTokenExpired){
             throw createHttpError(401, "Session token expired");
