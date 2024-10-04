@@ -23,7 +23,9 @@ const contactsSchema = new Schema(
       required: true,
       default: 'personal',
     },
-    userId: {type: Schema.Types.ObjectId, ref: "users"}
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: "users"},
   },
   {
     timestamps: true,
