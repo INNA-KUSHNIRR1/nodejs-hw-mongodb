@@ -4,6 +4,12 @@ import createHttpError from "http-errors";
 import { SessionsCollection } from "../db/models/session.js";
 import { randomBytes } from "crypto";
 import { FIFTEEN_MINUTES, THIRTY_DAY } from "../constants/index.js";
+// import { assert } from "joi";
+import jwt from "jsonwebtoken";
+import {env} from "../utils/env.js";
+import { SMTP } from "../constants/index.js";
+import { sendEmail } from "../utils/sendEmail.js";
+
 
 
 export const registerUser = async(payload)  => {
@@ -22,7 +28,7 @@ export const loginUser= async (payload)=>{
     if(!isEqual){ throw createHttpError(401, "Unauthorized");}
 
     await SessionsCollection.deleteOne({userId: user._id});
-    
+
     const accessToken=randomBytes(30).toString("base64");
     const refreshToken=randomBytes(30).toString("base64");
 
@@ -76,5 +82,31 @@ export const refreshUsersSession = async ({
         return await SessionsCollection.create({
             userId: session.userId,
             ...newSession,
+        });
+    };
+
+    export const sendResetToken = async(email)=>{
+        const user = await UsersCollection.findOne({email});
+
+        if(!user){
+            throw createHttpError(404, "User not found");
+        }
+
+        const resetToken = jwt.sign(
+            {
+                sub: user._id,
+                email,
+            },
+            env("JWT_SECRET"),
+            {
+                expiresIn: "15m",
+            },
+        );
+
+        await sendEmail({
+            from: env(SMTP.SMTP_FROM),
+            to: email,
+            subject: "Reset your password",
+            html: `<p>Click<a href="${resetToken}">here</a>to reset your password!</p>`
         });
     };
