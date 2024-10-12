@@ -3,13 +3,15 @@ import { UsersCollection } from "../db/models/user.js";
 import createHttpError from "http-errors";
 import { SessionsCollection } from "../db/models/session.js";
 import { randomBytes } from "crypto";
-import { FIFTEEN_MINUTES, THIRTY_DAY } from "../constants/index.js";
+import { FIFTEEN_MINUTES, TEMPLATES_DIR, THIRTY_DAY } from "../constants/index.js";
 // import { assert } from "joi";
 import jwt from "jsonwebtoken";
 import {env} from "../utils/env.js";
 import { SMTP } from "../constants/index.js";
 import { sendEmail } from "../utils/sendEmail.js";
-
+import handlebars from "handlebars";
+import path from "node:path";
+import fs from "node:fs/promises";
 
 
 export const registerUser = async(payload)  => {
@@ -103,10 +105,53 @@ export const refreshUsersSession = async ({
             },
         );
 
+        const resetPasswordTemplatePath = path.join(
+            TEMPLATES_DIR, "reset-password-email.html",
+        );
+
+        const templateSource = (
+            await fs.readFile(resetPasswordTemplatePath)
+        ).toString();
+
+        const template = handlebars.compile(templateSource);
+
+        const html = template({
+            name: user.name,
+            link:`${env("APP_DOMAIN")}/reset-password?token=${resetToken}`
+        });
+
         await sendEmail({
             from: env(SMTP.SMTP_FROM),
             to: email,
             subject: "Reset your password",
-            html: `<p>Click<a href="${resetToken}">here</a>to reset your password!</p>`
+            html,
         });
+    };
+
+    export const resetPassword = async(token, password)=>{
+        let entries;
+
+        try {
+            entries = jwt.verify(token, env("JWT_SECRET"));
+        } catch (error) {
+            if(error instanceof Error) throw createHttpError(401, error.message);
+            throw error;
+        }
+
+        const user = await UsersCollection.findOne({
+            email:entries.email,
+            _id: entries.sub,
+        });
+
+        if(!user){
+            throw createHttpError(404, "User not found");
+        }
+
+        const hashPassword = await bcrypt.hash(password, 10);
+
+        await UsersCollection.updateOne(
+            {_id: user._id},
+            {password: hashPassword},
+        );
+        
     };
