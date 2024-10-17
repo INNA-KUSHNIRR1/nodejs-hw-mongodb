@@ -1,0 +1,22 @@
+
+
+type: object
+required:
+  - name
+  - phoneNumber
+  - contactType
+properties:
+
+  name:
+    description: "Contact's name"
+    type: string
+    example: 'John Doe'
+  phoneNumber:
+    description: "Contact's phone"
+    type: string
+    example: 12
+  contactType:
+    description: "Contacts's type"
+    type: string
+    enum: ['work', 'home', 'personal']
+
