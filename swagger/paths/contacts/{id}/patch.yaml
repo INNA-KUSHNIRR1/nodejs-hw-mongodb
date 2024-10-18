@@ -1,0 +1,73 @@
+tags:
+  - Contacts
+summary: Update contact by id
+operationId: updateContact
+description: 'Update contact by ID'
+security:
+  - bearerAuth: []
+requestBody:
+  content:
+    multipart/form-data:
+      schema:
+        type: object
+        properties:
+          name:
+            description: "Contact's name"
+            type: string
+            example: 'Inna Kushnir'
+          phoneNumber:
+            description: "Contact`s phone"
+            type: number
+            example: 333 444 55 77
+          email:
+            description: "Contact`s email"
+            type: string
+            example: Inna_Kushnir@gmail.com
+          isFavourite:
+            description: "Whether is contact in favorites"
+            type: boolean
+            example: false
+          contactType:
+            description: "Contact phone type"
+            type: string
+            enum: ['work', 'home', 'personal']
+          userId:
+            description: "Contact`s user id"
+            type: string
+            example: 670a9443cc29154fc3508ead
+          photo:
+            description: "Contact`s photo"
+            type: string
+            format: binary
+parameters:
+  - in: path
+    name: id
+    required: true
+    schema:
+      type: string
+      example: '65ca67e7ae7f10c88b598384'
+  
+responses:
+  '200':
+    description: 'Update contact by id'
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: Successfully update a contact!
+            data:
+              type: object
+              $ref: '../../../components/schemas/contact.yaml'
+  '404':
+    $ref: '../../../components/responses/404.yaml'
+
