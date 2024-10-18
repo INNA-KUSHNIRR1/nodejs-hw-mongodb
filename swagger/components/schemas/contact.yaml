@@ -6,17 +6,33 @@ required:
   - phoneNumber
   - contactType
 properties:
-
   name:
     description: "Contact's name"
     type: string
-    example: 'John Doe'
+    example: 'Inna Kushnir'
   phoneNumber:
-    description: "Contact's phone"
+    description: "Contact`s phone"
+    type: number
+    example: 333 444 55 77
+  email:
+    description: "Contact`s email"
     type: string
-    example: 12
+    example: Inna_Kushnir@gmail.com
+  isFavourite:
+    description: "Whether is contact in favorites"
+    type: boolean
+    example: false
   contactType:
-    description: "Contacts's type"
+    description: "Contact phone type"
     type: string
     enum: ['work', 'home', 'personal']
+  userId:
+    description: "Contact`s user id"
+    type: string
+    example: 670a9443cc29154fc3508ead
+  photo:
+    description: "Link to contact`s photo"
+    type: string
+    example: https://res.cloudinary.com/dyxmt0t9d/image/upload/v1728823635/fqqn1hn7wl66lpzo55sk.jpg
+
 
