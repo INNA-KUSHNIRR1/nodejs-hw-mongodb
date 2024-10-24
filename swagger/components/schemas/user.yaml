@@ -1,0 +1,21 @@
+type: object
+required:
+  - name
+  - email
+  - password
+properties:
+  name:
+    description: "User's name"
+    type: string
+    example: 'Inna Kushnir'
+  email:
+    description: "User`s email"
+    type: string
+    example: Inna_Kushnir@gmail.com
+  password:
+    type: string
+    description: Hashed password of the user
+    example: '$10$vb1B/.F5AZFFb6w8TzgHaO8X72dj3nzQ.02HEj1IjqJ1eT2YXM5'
+
+
+

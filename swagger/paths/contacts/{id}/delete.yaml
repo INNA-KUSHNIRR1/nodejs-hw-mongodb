@@ -16,5 +16,5 @@ responses:
   '204':
     description: 'Contact was deleted successfully'
   '404':
-    $ref: '../../../components/responses/404.yaml'
+    $ref: '../../../components/responses/contacts/404.yaml'
 

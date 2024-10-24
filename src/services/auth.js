@@ -153,5 +153,5 @@ export const refreshUsersSession = async ({
             {_id: user._id},
             {password: hashPassword},
         );
-        
+
     };

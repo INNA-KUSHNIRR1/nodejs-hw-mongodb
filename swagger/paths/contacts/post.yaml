@@ -68,5 +68,5 @@ responses:
               type: object
               $ref: '../../components/schemas/contact.yaml'
   '401':
-    $ref: '../../components/responses/401.yaml'
+    $ref: '../../components/responses/contacts/401.yaml'
 

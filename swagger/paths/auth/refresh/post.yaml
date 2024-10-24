@@ -1,0 +1,36 @@
+tags:
+  - Auth
+summary: Refresh user session
+operationId: refreshUserSession
+description: 'Refresh user session and return accessToken'
+security:  []
+responses:
+  '200':
+    description: Refresh token
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: "Successfully refreshed a session!"
+            data:
+              type: object
+              required:
+                -  accessToken
+              properties:
+                accessToken:
+                  type: string
+                  description: Refreshed token
+                  example: ocFszCZIEkWDS4FCiJJvJxgEwgiIPIoK/LXowMI3
+  '401':
+    $ref: '../../../components/responses/auth/401.yaml'
+ 

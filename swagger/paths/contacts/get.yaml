@@ -35,7 +35,7 @@ parameters:
       type: string
       example: "isFavourite"
     description: "All contact's fields can be mentioned. Default value - {}"
-  
+
 responses:
   '200':
     description: Successfully found students!
@@ -88,5 +88,5 @@ responses:
                   type: boolean
                   example: true
   '401':
-    $ref: '../../components/responses/401.yaml'
+    $ref: '../../components/responses/contacts/401.yaml'
 

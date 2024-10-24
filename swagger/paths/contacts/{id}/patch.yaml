@@ -1,10 +1,17 @@
 tags:
   - Contacts
 summary: Update contact by id
-operationId: updateContact
 description: 'Update contact by ID'
+operationId: updateContact
 security:
   - bearerAuth: []
+parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        example: '65ca67e7ae7f10c88b598384'
 requestBody:
   content:
     multipart/form-data:
@@ -31,25 +38,14 @@ requestBody:
             description: "Contact phone type"
             type: string
             enum: ['work', 'home', 'personal']
-          userId:
-            description: "Contact`s user id"
-            type: string
-            example: 670a9443cc29154fc3508ead
           photo:
             description: "Contact`s photo"
             type: string
             format: binary
-parameters:
-  - in: path
-    name: id
-    required: true
-    schema:
-      type: string
-      example: '65ca67e7ae7f10c88b598384'
-  
+
 responses:
   '200':
-    description: 'Update contact by id'
+    description: 'Contact updated'
     content:
       application/json:
         schema:
@@ -69,5 +65,5 @@ responses:
               type: object
               $ref: '../../../components/schemas/contact.yaml'
   '404':
-    $ref: '../../../components/responses/404.yaml'
+    $ref: '../../../components/responses/contacts/404.yaml'
 
